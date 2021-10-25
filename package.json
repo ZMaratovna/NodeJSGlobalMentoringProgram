@@ -2,11 +2,12 @@
   "name": "nodegmp",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "module2/server.ts",
   "scripts": {
     "task1": "nodemon ./module1/task1.js",
     "task2": "nodemon ./module1/task2.js",
-    "task3": "nodemon ./module1/task3.js --exec babel-node"
+    "task3": "nodemon ./module1/task3.js --exec babel-node",
+    "start": "nodemon ./module2/server.ts"
   },
   "repository": {
     "type": "git",
@@ -27,8 +28,21 @@
     "@babel/core": "^7.15.5",
     "@babel/node": "^7.15.4",
     "@babel/preset-env": "^7.15.6",
+    "@types/express": "^4.17.13",
+    "@types/lodash": "^4.14.176",
+    "@types/uuid": "^8.3.1",
     "csvtojson": "^2.0.10",
-    "nodemon": "^2.0.12"
+    "express": "^4.17.1",
+    "nodemon": "^2.0.12",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@types/cors": "^2.8.12",
+    "cors": "^2.8.5",
+    "express-joi-validation": "^5.0.0",
+    "joi": "^17.4.2",
+    "lodash": "^4.17.21",
+    "uuid": "^8.3.2"
+  }
 }
