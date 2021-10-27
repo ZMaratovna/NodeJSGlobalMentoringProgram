@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import _ from 'lodash';
 
-import { User, UserServiceInterface, ErrorMessage } from '../types';
+import { User, UserServiceInterface } from '../types';
 
 class UserService implements UserServiceInterface {
   private usersStore: User[] = [
@@ -48,32 +48,33 @@ class UserService implements UserServiceInterface {
     return !!duplicatedUser;
   }
 
-  public find = async (userId: string): Promise<User | ErrorMessage> => {
+  public find = async (userId: string): Promise<User | null> => {
     const foundUser: User | undefined = this.usersStore.find(({id}) => id === userId);
     if (!foundUser) {
-      return {error: true, message: 'User not found'};
+      return null;
     }
     return foundUser;
   };
 
-  public create = async (newUser: User): Promise<User | ErrorMessage> => {
+  public create = async (newUser: User): Promise<User | null > => {
     if (!this.checkDuplicates(this.usersStore, newUser)) {
         const user: User = {
         ...newUser,
+        isDeleted: false,
         id: uuid(),
         };
       this.usersStore.push(user);
       return user;
     } else {
-        return { error: true, message: 'User with this login has already exists'}
+        return null
     }
   };
 
-  public update = async (id: string, userInfoToUpdate: User): Promise<User | ErrorMessage> => {
+  public update = async (id: string, userInfoToUpdate: User): Promise<User | null > => {
     const userIndex: number = this.usersStore.findIndex((u) => u.id === id);
     const userToUpdate = this.usersStore[userIndex];
     if (!userToUpdate) {
-      return {error: true, message: 'No user found to update'};
+      return null;
     }
     const updatedUser: User = {
       ...userToUpdate,
@@ -83,11 +84,11 @@ class UserService implements UserServiceInterface {
     return updatedUser;
   };
 
-  public delete = async (id: string): Promise<void | ErrorMessage> => {
+  public delete = async (id: string): Promise<string | null> => {
     const userIndex: number = this.usersStore.findIndex((u) => u.id === id);
     const userToDelete = this.usersStore[userIndex];
     if (!userToDelete) {
-      return {error: true, message: 'No user found to delete'};
+      return null;
     } else {
       this.updateUsersStore(
           userIndex, 
@@ -96,20 +97,21 @@ class UserService implements UserServiceInterface {
           isDeleted: true
           }
       );
+      return userToDelete.id;
     }
   };
 
   public getAutoSuggestUsers = async (
     loginSubstring: string,
     limit: string | number
-  ): Promise<User[] | ErrorMessage> => {
+  ): Promise<User[] | null> => {
     if (limit && !isNaN(Number(limit))) {
       return this.usersStore
         .filter((u: User) => u.login.includes(loginSubstring))
         .slice(0, Number(limit) || this.usersStore.length)
         .sort((uA: User, uB: User) => uA.login.localeCompare(uB.login));
       } else {
-        return {error: true, message: 'Invalid query parameters'};
+        return null;
       }
   }
 
