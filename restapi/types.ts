@@ -6,14 +6,14 @@ export interface User {
     login: string;
     password: string;
     age: number;
-    isDeleted: boolean;
+    isDeleted?: boolean;
 }
 
 export interface UserServiceInterface {
     find(id: string): Promise<User | null>;
     create(newUser: User): Promise<User | null>;
-    update(id: string, updatedUser: User): Promise<User | null>;
-    delete(id: string): Promise<string | null>;
+    update(user: User): Promise<User | null>;
+    delete(id: string): Promise<User | null>;
     getAutoSuggestUsers(loginSubstring: string, limit: number): Promise<User[] | null>;
     getAll(): Promise<User[]>;
 }

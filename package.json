@@ -2,12 +2,12 @@
   "name": "nodegmp",
   "version": "1.0.0",
   "description": "",
-  "main": "module2/server.ts",
+  "main": "restapi/server.ts",
   "scripts": {
     "task1": "nodemon ./module1/task1.js",
     "task2": "nodemon ./module1/task2.js",
     "task3": "nodemon ./module1/task3.js --exec babel-node",
-    "start": "nodemon ./module2/server.ts"
+    "start": "nodemon ./restapi/server.ts"
   },
   "repository": {
     "type": "git",
@@ -40,9 +40,14 @@
   "dependencies": {
     "@types/cors": "^2.8.12",
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express-joi-validation": "^5.0.0",
     "joi": "^17.4.2",
     "lodash": "^4.17.21",
+    "pg": "^8.7.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.9.0",
+    "sequelize-cli": "^6.3.0",
     "uuid": "^8.3.2"
   }
 }
