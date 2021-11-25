@@ -17,6 +17,7 @@ export default class UserRepository {
           login,
           password,
           age,
+          isDeleted: false
         }, {});
       }
     
@@ -29,23 +30,34 @@ export default class UserRepository {
       }
     
       getUsers(substr?: string, limit?: number): Promise<User[]> {
-        let whereClause: WhereAttributeHash = {
+        let substrClause = {};
+        const deletedClause = {
           isDeleted: {
             [Op.eq]: false,
           },
         };
     
         if (substr) {
-          whereClause = {
-            ...whereClause,
+          substrClause = {
             login: {
-              [Op.like]: `%${substr}%`,
-            },
+              [Op.like]: `%${substr}%`
+            }
           };
+          // whereClause = {
+          //   ...whereClause,
+          //   login: {
+          //     [Op.like]: `%${substr}%`,
+          //   },
+          // };
         }
     
         return this.model.findAll({
-          where: whereClause,
+          where: {
+            [Op.and]: {
+              ...deletedClause,
+              ...substrClause
+            }
+          },
           limit,
         });
       }

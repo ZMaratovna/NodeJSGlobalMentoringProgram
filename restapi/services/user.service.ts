@@ -25,6 +25,7 @@ class UserService implements UserServiceInterface {
       } else {
         const newUserWithId: User = {
           ...newUser,
+          isDeleted: false,
           id: uuid(),
         };
         return this.repository.add(newUserWithId)

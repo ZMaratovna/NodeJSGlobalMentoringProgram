@@ -7,7 +7,7 @@ export default class User extends Model {
     login!: string;
     password!: string;
     age!: number;
-    isDeleted?: boolean;
+    isDeleted!: boolean;
 }
 User.init({
     id: {
@@ -24,9 +24,5 @@ User.init({
   }, {
     sequelize: db,
     tableName: 'user',
-    defaultScope: {
-      attributes: {
-        exclude: ['isDeleted'],
-      },
-    },
+    timestamps: false
   });

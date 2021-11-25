@@ -35,7 +35,7 @@ class UserController implements UserControllerInterface {
         const {id} = req.params;
     const infoToUpdate = req.body;
     try {
-        const updatedUser: User | null = await UserService.update(id, infoToUpdate);
+        const updatedUser: User | null = await UserService.update({id, ...infoToUpdate});
         if (updatedUser) {
             res.status(201).send(updatedUser);
         } else {
@@ -49,9 +49,9 @@ class UserController implements UserControllerInterface {
     public delete = async (req:Request, res: Response): Promise<void> => {
         const {id} = req.params;
         try {
-            const userId : string | null = await UserService.delete(id);
-            if (userId) {
-                res.status(200).send(userId);
+            const user : User| null = await UserService.delete(id);
+            if (user) {
+                res.status(200).send(user);
             } else {
                 res.status(404).send({error: 'no user to delete'});
             }
