@@ -12,6 +12,7 @@ const userSchema = Joi.object({
     login: Joi.string().required().email(),
     password: Joi.string().regex(alphaNumRegex).message(messages.pwd).required(),
     age: Joi.number().integer().min(4).max(130).message(messages.age).required(),
+    isDeleted: Joi.bool()
   })
 
 export const userValidator = validator.body(userSchema);
