@@ -1,7 +1,7 @@
-import {Op, WhereAttributeHash} from 'sequelize';
+import {Op} from 'sequelize';
 import { v4 as uuid } from 'uuid';
 
-import UserModel from '../models/user';
+import {UserModel} from '../models';
 import {User} from '../types';
 
 export default class UserRepository {

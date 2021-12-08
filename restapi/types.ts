@@ -1,12 +1,25 @@
 import {Request, Response} from 'express';
 
 type ControllerMethod = (req:Request, res: Response) =>  Promise<void>;
+export type Permission = 'READ' | 'WRITE' | 'DELETE' | 'SHARE' | 'UPLOAD_FILES';
+
 export interface User {
     id: string;
     login: string;
     password: string;
     age: number;
     isDeleted: boolean;
+}
+
+export type Group = {
+    id: string;
+    name: string;
+    permissions: Array<Permission>;
+}
+
+export type UserGroup = {
+    userId: string;
+    groupId: string;
 }
 
 export interface UserServiceInterface {
@@ -24,4 +37,20 @@ export interface UserControllerInterface {
     delete: ControllerMethod
     getAutoSuggestUsers: ControllerMethod;
     getAll: ControllerMethod;
+}
+export interface GroupServiceInterface {
+    find(id: string): Promise<Group | null>;
+    create(newUser: Group): Promise<Group | null>;
+    update(user: Group): Promise<Group | null>;
+    delete(id: string): Promise<number>;
+    getAll(): Promise<Group[]>;
+    addUsers(userIds: string[], groupId: string): Promise<number>
+}
+export interface GroupControllerInterface {
+    find: ControllerMethod;
+    create: ControllerMethod;
+    update: ControllerMethod;
+    delete: ControllerMethod
+    getAll: ControllerMethod;
+    addUsers: ControllerMethod;
 }
